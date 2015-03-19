@@ -49,8 +49,21 @@ PRODUCT_PACKAGES += \
     unpack_intel
 
 # Ramdisk
+PRODUCT_PACKAGES += \
+	fstab.sc1 \
+	init.avc.rc \
+	init.common.rc \
+	init.debug.rc \
+	init.moto.usb.rc \
+	init.oom.rc \
+	init.recovery.sc1.rc \
+	init.sc1.rc \
+	init.wifi.rc \
+	init.wireless.rc \
+	init.xmm.rc \
+	ueventd.sc1.rc
+#	init.rc \
 PRODUCT_COPY_FILES += \
-        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/rootdir,root) \
         $(call find-copy-subdir-files,*,$(LOCAL_PATH)/modules/prebuilt/lib/modules,system/lib/modules)
 
 # Camera
@@ -207,16 +220,19 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/modules/prebuilt/usr/keylayout/medfield_audio_Intel_R__MID_Audio_Jack.kl:system/usr/keylayout/medfield_audio_Intel_R__MID_Audio_Jack.kl
 
-# Recovery
+# TWRP
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/twrp.fstab:recovery/root/etc/twrp.fstab \
-    $(LOCAL_PATH)/rootdir/init.recovery.sc1.rc:recovery/root/init.recovery.sc1.rc
+    $(LOCAL_PATH)/rootdir/twrp.fstab:recovery/root/etc/twrp.fstab
 
-# MediaProfile for xt890
+# Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/config/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/config/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/config/wrs_omxil_components.list:system/etc/wrs_omxil_components.list
+    $(LOCAL_PATH)/config/wrs_omxil_components.list:system/etc/wrs_omxil_components.list \
+    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml
 
 # Permissions
 PRODUCT_COPY_FILES += \
