@@ -222,8 +222,8 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/idc/atmxt-i2c.idc:system/usr/idc/atmxt-i2c.idc \
     $(LOCAL_PATH)/idc/mxt224_touchscreen_0.idc:system/usr/idc/mxt224_touchscreen_0.idc \
-    $(LOCAL_PATH)/idc/atmxt-i2c.idc:recovery/root/vendor/firmware/atmxt-i2c.idc \
-    vendor/motorola/smi/proprietary/etc/firmware/atmxt-r2.tdat:recovery/root/vendor/firmware/atmxt-r2.tdat
+    $(LOCAL_PATH)/idc/atmxt-i2c.idc:root/vendor/firmware/atmxt-i2c.idc \
+    vendor/motorola/smi/proprietary/etc/firmware/atmxt-r2.tdat:root/vendor/firmware/atmxt-r2.tdat
 
 # Keylayout (mapping)
 PRODUCT_COPY_FILES += \
@@ -231,7 +231,7 @@ PRODUCT_COPY_FILES += \
 
 # TWRP
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/etc/twrp.fstab:recovery/root/etc/twrp.fstab
+    $(LOCAL_PATH)/rootdir/etc/twrp.fstab:root/etc/twrp.fstab
 
 # Media
 PRODUCT_COPY_FILES += \

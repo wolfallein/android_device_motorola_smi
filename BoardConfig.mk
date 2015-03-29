@@ -157,6 +157,9 @@ BOARD_SUPPRESS_EMMC_WIPE := true
 DEVICE_RESOLUTION := 540x960
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TW_CUSTOM_BATTERY_PATH := /sys/class/power_supply/max170xx_battery
+TW_MAX_BRIGHTNESS := 100
+TW_BRIGHTNESS_PATH := /sys/class/backlight/psb-bl/brightness
+#TW_NO_SCREEN_BLANK := true
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
 TW_INTERNAL_STORAGE_PATH := "/data/media"
@@ -173,9 +176,9 @@ BOARD_SEPOLICY_DIRS += \
 BOARD_SEPOLICY_UNION += \
 	akmd8963.te \
 	batt_health.te \
-	bootanim.te \
 	bd_prov.te \
-	debuggerd.te \
+	bluetooth.te \
+	bootanim.te \
 	enable_houdini.te \
 	file.te \
 	init.te \
