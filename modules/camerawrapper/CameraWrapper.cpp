@@ -100,17 +100,6 @@ static char * camera_fixup_getparams(int id, const char * settings)
     params.dump();
 #endif
 
-    /* Camera app expects the "off" HFR value to come as the last one,
-     * so if the vendor provided values start with it, move it to tail.
-     */
-    const char* hfrValues =
-            params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES);
-    if (hfrValues && *hfrValues && !strncmp(hfrValues, "off,", 4)) {
-        char tmp[strlen(hfrValues) + 1];
-        sprintf(tmp, "%s,off", hfrValues + 4);
-        params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
-    }
-
     /* Add HDR scene mode expected by camera app to be present for cameras
      * that support HDR mode.
      */
@@ -160,20 +149,6 @@ char * camera_fixup_setparams(const char * settings)
     params.dump();
 #endif
 
-    /* No 'zsl-values' mean JB camera, which needs 'mode' parameter set to 'high-quality-zsl'
-     * to enable ZSL. Disable face detection in ZSL mode for JB blobs to prevent crash.
-     */
-    const char *zslValues = params.get(android::CameraParameters::KEY_SUPPORTED_ZSL_MODES);
-    const char *zsl = params.get(android::CameraParameters::KEY_ZSL);
-    if (!zslValues) { // JB camera blobs in use
-        if (zsl && *zsl && !strncmp(zsl, "on", 2)) {
-            params.set("mode", "high-quality-zsl");
-            params.set(android::CameraParameters::KEY_FACE_DETECTION, "off");
-        } else {
-            params.set("mode", "high-quality");
-        }
-    }
-
     /* Enable moto HDR mode when camera app selects the HDR scene mode
      * and disable face detection in HDR mode.
      */
@@ -183,7 +158,6 @@ char * camera_fixup_setparams(const char * settings)
             params.set("mot-hdr-mode", "on");
             params.set(android::CameraParameters::KEY_SCENE_MODE,
                     android::CameraParameters::SCENE_MODE_AUTO);
-            params.set(android::CameraParameters::KEY_FACE_DETECTION, "off");
         } else {
             params.set("mot-hdr-mode", "off");
         }
@@ -205,17 +179,6 @@ char * camera_fixup_setparams(const char * settings)
     const char *motEnvEventModeVals = params.get("mot-env-event-mode-values");
     if (motEnvEventModeVals && *motEnvEventModeVals && strstr(motEnvEventModeVals, "on")) {
         params.set("mot-env-event-mode", "on");
-    }
-
-    /* Restore the HFR modes and supported scene modes values to the state expected
-     * by the vendor blobs.
-     */
-    const char* hfrValues =
-            params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES);
-    if (hfrValues && *hfrValues && strncmp(hfrValues, "off,", 4)) {
-        char tmp[strlen(hfrValues) + 1];
-        sprintf(tmp, "off,%.*s", strlen(hfrValues) - 4, hfrValues);
-        params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
     }
 
     const char *supportedSceneModes =

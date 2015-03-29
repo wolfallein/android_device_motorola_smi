@@ -23,10 +23,6 @@ ifneq ($(LIBENC_INCLUDED),true)
 
 LIBENC_INCLUDED := true
 
-LOCAL_COPY_HEADERS := \
-	enc_wrapper.h
-LOCAL_COPY_HEADERS_TO := libenc
-
 enc_src_files := \
         enc_base.cpp \
         dec_base.cpp \
@@ -43,6 +39,8 @@ enc_include_files :=
 ifneq ($(SDK_ONLY),true)  # SDK_only doesn't need device version
 
 include $(CLEAR_VARS)
+LOCAL_COPY_HEADERS := enc_wrapper.h enc_defs_ext.h
+LOCAL_COPY_HEADERS_TO := libenc
 LOCAL_SRC_FILES := $(enc_src_files)
 LOCAL_C_INCLUDES += $(enc_include_files)
 LOCAL_MODULE_TAGS := optional

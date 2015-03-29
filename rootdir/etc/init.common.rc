@@ -1,6 +1,6 @@
 on early-init
     # Set Selinux to permissive if enabled in SEPOLICY
-    setenforce 0
+
     # set permission for charger-mode
     chmod 0770 /charger
     chown system system /dev/dri/card0
@@ -76,25 +76,30 @@ on charger
     # reset counter watchdog at the end of system boot
     write /sys/devices/virtual/misc/watchdog/counter "0"
 
-service pvrsrvctl /system/vendor/bin/pvrsrvctl --no-module --start
+service pvrsrvctl /system/bin/pvrsrvctl
     class core
     oneshot
     user root
+    seclabel u:r:pvrsrvctl:s0
 
-# Set watchdog timer to 30 seconds and pet it every 10 seconds to get a 20 second margin
-service watchdogd /sbin/watchdogd 10 20
+# interval:60s margin:20s
+service watchdogd /sbin/watchdogd 60 20
     class core
+    oneshot
+    seclabel u:r:watchdogd:s0
 
-service_redefine drm /system/bin/drmserver
+service drm /system/bin/drmserver
     class main
     user drm
     group drm inet drmrpc sdcard_r security mot_tpapi mot_drm
+    service_redefine
 
-service_redefine media /system/bin/mediaserver
+service media /system/bin/mediaserver
     class main
     user media
     group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mot_tpapi mot_drm qcom_diag
     ioprio rt 4
+    service_redefine
 
 #Enable Houdini for execuable
 service enable_houdini /system/bin/enable_houdini

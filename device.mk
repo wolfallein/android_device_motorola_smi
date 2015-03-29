@@ -61,8 +61,8 @@ PRODUCT_PACKAGES += \
 	init.wifi.rc \
 	init.wireless.rc \
 	init.xmm.rc \
-	ueventd.sc1.rc
-#	init.rc \
+	ueventd.sc1.rc \
+	init.rc
 PRODUCT_COPY_FILES += \
         $(call find-copy-subdir-files,*,$(LOCAL_PATH)/modules/prebuilt/lib/modules,system/lib/modules)
 
@@ -70,12 +70,15 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     camera.sc1 \
     libintelmetadatabuffer
+# Newer camera API isn't supported.
+PRODUCT_PROPERTY_OVERRIDES += \
+    camera2.portability.force_api=1
 
 # psb video
 PRODUCT_PACKAGES += \
     msvdx_bin \
-    topaz_bin #\
-#    pvr_drv_video
+    topaz_bin \
+    pvr_drv_video
 
 # libva
 PRODUCT_PACKAGES += \
@@ -94,8 +97,8 @@ PRODUCT_PACKAGES += \
     libmixvbp_h264secure \
     libmixvbp_vc1 \
     libmixvbp \
-    libva_videodecoder #\
-#    libva_videoencoder
+    libva_videodecoder \
+    libva_videoencoder
 
 # HW acceleration
 PRODUCT_PACKAGES += \
@@ -106,18 +109,20 @@ PRODUCT_PACKAGES += \
     libOMXVideoDecoderH263 \
     libOMXVideoDecoderMPEG4 \
     libOMXVideoDecoderPAVC \
-    libOMXVideoDecoderWMV #\
-#    libOMXVideoEncoderAVC \
-#    libOMXVideoEncoderH263 \
-#    libOMXVideoEncoderMPEG4
+    libOMXVideoDecoderWMV \
+    libOMXVideoEncoderAVC \
+    libOMXVideoEncoderH263 \
+    libOMXVideoEncoderMPEG4
 
 # libwsbm
 PRODUCT_PACKAGES += \
     libwsbm
 
-# libdrm
+# Graphics
 PRODUCT_PACKAGES += \
-    libdrm
+    libdrm \
+    pvrsrvctl \
+    libcorkscrew
 
 # AGPS
 PRODUCT_COPY_FILES += \
@@ -131,11 +136,6 @@ PRODUCT_PACKAGES += \
     tcpdump \
     Torch \
     com.android.future.usb.accessory
-
-# Crda
-PRODUCT_PACKAGES += \
-    crda \
-    regulatory.bin
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
@@ -169,9 +169,18 @@ PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
     dhcpcd.conf \
     hostapd.conf \
-    calibrator \
+    wifical.sh \
+    wl1271-nvs.bin \
+    wpa_supplicant.conf \
+    TQS_D_1.7.ini \
+    TQS_D_1.7_128x.ini \
     crda \
-    regulatory.bin
+    regulatory.bin \
+    calibrator \
+    busybox \
+    libwpa_client \
+    hostapd \
+    wpa_supplicant
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
 
@@ -222,7 +231,7 @@ PRODUCT_COPY_FILES += \
 
 # TWRP
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/twrp.fstab:recovery/root/etc/twrp.fstab
+    $(LOCAL_PATH)/rootdir/etc/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Media
 PRODUCT_COPY_FILES += \
