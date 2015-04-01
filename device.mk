@@ -56,15 +56,16 @@ PRODUCT_PACKAGES += \
 	init.debug.rc \
 	init.moto.usb.rc \
 	init.oom.rc \
-	init.recovery.sc1.rc \
 	init.sc1.rc \
 	init.wifi.rc \
 	init.wireless.rc \
 	init.xmm.rc \
 	ueventd.sc1.rc \
-	init.rc
+	init.rc \
+	init.recovery.sc1.rc
 PRODUCT_COPY_FILES += \
-        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/modules/prebuilt/lib/modules,system/lib/modules)
+        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/prebuilt/lib/modules,system/lib/modules) \
+    	$(LOCAL_PATH)/rootdir/etc/twrp.fstab:recovery/root/etc/twrp.fstab
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -126,7 +127,7 @@ PRODUCT_PACKAGES += \
 
 # AGPS
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/modules/prebuilt/framework/com.motorola.android.location.jar:system/framework/com.motorola.android.location.jar
+    $(LOCAL_PATH)/prebuilt/framework/com.motorola.android.location.jar:system/framework/com.motorola.android.location.jar
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -163,8 +164,8 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/modules/prebuilt/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
-    $(LOCAL_PATH)/modules/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh
+    $(LOCAL_PATH)/prebuilt/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+    $(LOCAL_PATH)/prebuilt/bin/fix-mac.sh:system/bin/fix-mac.sh
 PRODUCT_PACKAGES += \
     lib_driver_cmd_wl12xx \
     dhcpcd.conf \
@@ -220,24 +221,20 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 # IDC
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/idc/atmxt-i2c.idc:system/usr/idc/atmxt-i2c.idc \
-    $(LOCAL_PATH)/idc/mxt224_touchscreen_0.idc:system/usr/idc/mxt224_touchscreen_0.idc \
-    $(LOCAL_PATH)/idc/atmxt-i2c.idc:root/vendor/firmware/atmxt-i2c.idc \
-    vendor/motorola/smi/proprietary/etc/firmware/atmxt-r2.tdat:root/vendor/firmware/atmxt-r2.tdat
+    $(LOCAL_PATH)/prebuilt/usr/idc/atmxt-i2c.idc:system/usr/idc/atmxt-i2c.idc \
+    $(LOCAL_PATH)/prebuilt/usr/idc/mxt224_touchscreen_0.idc:system/usr/idc/mxt224_touchscreen_0.idc \
+    $(LOCAL_PATH)/prebuilt/usr/idc/atmxt-i2c.idc:recovery/root/vendor/firmware/atmxt-i2c.idc \
+    $(LOCAL_PATH)/prebuilt/usr/idc/atmxt-r2.tdat:recovery/root/vendor/firmware/atmxt-r2.tdat
 
 # Keylayout (mapping)
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/modules/prebuilt/usr/keylayout/medfield_audio_Intel_R__MID_Audio_Jack.kl:system/usr/keylayout/medfield_audio_Intel_R__MID_Audio_Jack.kl
-
-# TWRP
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/etc/twrp.fstab:root/etc/twrp.fstab
+    $(LOCAL_PATH)/prebuilt/usr/keylayout/medfield_audio_Intel_R__MID_Audio_Jack.kl:system/usr/keylayout/medfield_audio_Intel_R__MID_Audio_Jack.kl
 
 # Media
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/config/media_profiles.xml:system/etc/media_profiles.xml \
-    $(LOCAL_PATH)/config/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/config/wrs_omxil_components.list:system/etc/wrs_omxil_components.list \
+    $(LOCAL_PATH)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
+    $(LOCAL_PATH)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/prebuilt/etc/wrs_omxil_components.list:system/etc/wrs_omxil_components.list
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
@@ -266,7 +263,7 @@ PRODUCT_COPY_FILES += \
 
 # Device specific permissions
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/modules/prebuilt/etc/permissions/com.motorola.android.drmcommonconfig.xml:system/etc/permissions/com.motorola.android.drmcommonconfig.xml
+    $(LOCAL_PATH)/prebuilt/etc/permissions/com.motorola.android.drmcommonconfig.xml:system/etc/permissions/com.motorola.android.drmcommonconfig.xml
 
 PRODUCT_GMS_CLIENTID_BASE ?= android-motorola
 
