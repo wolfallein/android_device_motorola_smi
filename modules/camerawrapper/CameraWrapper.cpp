@@ -120,14 +120,6 @@ static char * camera_fixup_getparams(int id, const char * settings)
         params.set(android::CameraParameters::KEY_SCENE_MODE, "hdr");
     }
 
-    /* Prevent camera app infinitely waiting for the 2nd snapshot to come,
-     * in HDR mode (KK camera blobs).
-     */
-    const char *numSnapsPerShutter = params.get("num-snaps-per-shutter");
-    if (numSnapsPerShutter && *numSnapsPerShutter) {
-        params.remove("num-snaps-per-shutter");
-    }
-
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
 
@@ -149,11 +141,16 @@ char * camera_fixup_setparams(const char * settings)
     params.dump();
 #endif
 
-    /* Enable moto HDR mode when camera app selects the HDR scene mode
-     * and disable face detection in HDR mode.
-     */
+    // Scenemode fixer
     const char *sceneMode = params.get(android::CameraParameters::KEY_SCENE_MODE);
+    char sceneWords[4][10] = {"fireworks",
+			      "landscape",
+			      "night",
+			      "sports"  };
     if (sceneMode && *sceneMode) {
+        /* Enable moto HDR mode when camera app selects the HDR scene mode
+         * and disable face detection in HDR mode.
+         */
         if (!strcmp(sceneMode, "hdr")) {
             params.set("mot-hdr-mode", "on");
             params.set(android::CameraParameters::KEY_SCENE_MODE,
@@ -161,6 +158,18 @@ char * camera_fixup_setparams(const char * settings)
         } else {
             params.set("mot-hdr-mode", "off");
         }
+	for(int i = 0; i < 5; i++) {
+            if (!strcmp(sceneMode, sceneWords[i])) {
+                params.set(android::CameraParameters::KEY_FLASH_MODE, "off");
+		break;
+	    }
+	}
+        if (!strcmp(sceneMode, "night-portrait")) {
+            params.set(android::CameraParameters::KEY_FLASH_MODE, "on");
+	}
+        if (!strcmp(sceneMode, "barcode")) {
+            params.set(android::CameraParameters::KEY_FOCUS_MODE, "macro");
+	}
     }
 
     /*  mot-image-stabilization-mode enabled needs to take 3 subsequent snapshots
