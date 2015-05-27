@@ -155,10 +155,10 @@ PRODUCT_PACKAGES += \
     setup_fs
 
 # Houdini
-PRODUCT_COPY_FILES += \
+#PRODUCT_COPY_FILES += \
         $(call find-copy-subdir-files,*,$(LOCAL_PATH)/houdini/system,system)
 
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
    libhoudini_hook \
    houdini_hook
 
@@ -234,7 +234,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/prebuilt/etc/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/prebuilt/etc/wrs_omxil_components.list:system/etc/wrs_omxil_components.list
+    $(LOCAL_PATH)/prebuilt/etc/wrs_omxil_components.list:system/etc/wrs_omxil_components.list \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
@@ -287,5 +287,13 @@ $(call inherit-product, $(LOCAL_PATH)/modules/nfc/nfc.mk)
 
 # Shared Transport (BLUETOOTH,FM,GPS)
 #$(call inherit-product-if-exists, hardware/ti/wpan/ti-wpan-products.mk)
+
+# This is needed to enable silver art optimizer.
+# This will build the plugins/libart-extension.so library,  which is dynamically loaded by
+# AOSP and contains Intel optimizations to the compiler.
+PRODUCT_PACKAGES += libart-extension
+
+# Houdini
+$(call inherit-product, vendor/intel/houdini/houdini.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0

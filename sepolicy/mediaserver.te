@@ -1,6 +1,18 @@
 allow mediaserver default_prop:property_service set;
-allow mediaserver radio_device:chr_file { read write ioctl open getattr };
+allow mediaserver tty_device:chr_file { read write ioctl open getattr };
 allow mediaserver audio_device:chr_file { read write ioctl open getattr };
 allow mediaserver socket_device:sock_file write;
 allow mediaserver graphics_device:dir search;
 allow mediaserver mmgr:unix_stream_socket connectto;
+allow mediaserver intel_sst_ctrl_device:chr_file { read write ioctl open };
+allow mediaserver camera_device:chr_file rw_file_perms;
+allow mediaserver system_app_data_file:dir search;
+allow mediaserver system_server:unix_stream_socket { read write };
+allow mediaserver unlabeled:dir { search write add_name };
+# below line breaks neverallow in domain.te online 169
+allow mediaserver unlabeled:file create_file_perms;
+unix_socket_connect(mediaserver, mmgr, mmgr)
+allow mediaserver camera_device:chr_file rw_file_perms;
+allow mediaserver surfaceflinger_tmpfs:file { read write };
+allow mediaserver system_data_file:file { open append };
+allow mediaserver sysfs_wake_lock:file { read write };

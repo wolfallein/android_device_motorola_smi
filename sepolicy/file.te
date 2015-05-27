@@ -7,3 +7,16 @@ type pds_file, file_type;
 
 # WIFI files
 type wifi_file, file_type;
+
+# binfmt_misc - Used by houdini
+type binfmt_misc, fs_type;
+
+# mmgr files
+type mmgr_socket, file_type;
+type sysfs_hsic_enable, fs_type, sysfs_type;
+
+# ueventd
+type sysfs_autosuspend_enable, fs_type, sysfs_type;
+
+# wv drm sysfs file
+type sysfs_drm_resource, fs_type, sysfs_type;

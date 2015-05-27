@@ -1,3 +1,6 @@
 allow rild socket_device:sock_file write;
-allow rild radio_device:chr_file getattr;
-allow rild mmgr:unix_stream_socket connectto;
+#allow rild tty_device:chr_file getattr;
+allow rild unlabeled:dir { search write add_name };
+# below line breaks neverallow in domain.te on line 169
+allow rild unlabeled:file create_file_perms;
+unix_socket_connect(rild, mmgr, mmgr)

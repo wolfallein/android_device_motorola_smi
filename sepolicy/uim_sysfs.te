@@ -11,7 +11,6 @@ allow uim_sysfs self:capability {
 };
 
 allow uim_sysfs gps_device:chr_file { setattr rw_file_perms };
-allow uim_sysfs radio_device:chr_file { setattr rw_file_perms };
-allow uim_sysfs hci_attach_dev:chr_file rw_file_perms;
+allow uim_sysfs tty_device:chr_file { setattr rw_file_perms };
 allow uim_sysfs sysfs_bluetooth_writable:file { setattr rw_file_perms };
 allow uim_sysfs gps_data_file:file create_file_perms;

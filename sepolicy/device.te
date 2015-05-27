@@ -1,0 +1,4 @@
+# Additional device rules
+type intel_sst_ctrl_device, dev_type;
+
+#type i2c_device, dev_type;

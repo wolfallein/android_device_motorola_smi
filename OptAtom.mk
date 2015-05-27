@@ -49,16 +49,16 @@ TARGET_GLOBAL_CPPFLAGS += -march=atom -fno-exceptions
 TARGET_GLOBAL_LDFLAGS += -Wl,-O1
 
 # Dalvik with houdini
-INTEL_HOUDINI := true
-WITH_JIT := true
-LOCAL_CFLAGS += -DARCH_IA32
+#INTEL_HOUDINI := true
+#WITH_JIT := true
+#LOCAL_CFLAGS += -DARCH_IA32
 #WITH_SELF_VERIFICATION := true
 
 # customize the malloced address to be 16-byte aligned
-BOARD_MALLOC_ALIGNMENT := 16
+#BOARD_MALLOC_ALIGNMENT := 16
 
-ifdef INTEL_HOUDINI
-TARGET_CPU_ABI2 := armeabi-v7a
-ADDITIONAL_BUILD_PROPERTIES += ro.product.cpu.upgradeabi=armeabi
+#ifdef INTEL_HOUDINI
+#TARGET_CPU_ABI2 := armeabi-v7a
+#ADDITIONAL_BUILD_PROPERTIES += ro.product.cpu.upgradeabi=armeabi
 #ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.houdini=on
-endif
+#endif

@@ -1,3 +1,7 @@
 allow system_server sensors_device:chr_file { read ioctl open };
 allow system_server default_prop:property_service set;
 allow system_server shell_exec:file { read execute open execute_no_trans };
+allow system_server mmgr:unix_stream_socket connectto;
+allow system_server mmgr_socket:sock_file write;
+allow system_server sysfs_drm_resource:dir search;
+allow system_server sysfs_drm_resource:file { read write open };

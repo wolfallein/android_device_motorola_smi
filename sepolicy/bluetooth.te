@@ -1,1 +1,7 @@
-allow bluetooth hci_attach_dev:chr_file { read write open };
+# Additional bluetooth rules
+type bd_prov_exec, exec_type, file_type;
+domain_auto_trans(init, bd_prov_exec, bluetooth)
+allow bluetooth tty_device:chr_file { read write ioctl open };
+allow bluetooth unlabeled:dir search;
+# sysfs file should be specified
+allow bluetooth sysfs:file write;

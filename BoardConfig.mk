@@ -19,6 +19,9 @@ TARGET_BOARD_PLATFORM := sc1
 # Atom optimizations to improve memory benchmarks.
 -include $(LOCAL_PATH)/OptAtom.mk
 
+# Appends path to ARM libs for Houdini
+PRODUCT_LIBRARY_PATH := $(PRODUCT_LIBRARY_PATH):/system/lib/arm
+
 # Wifi related defines
 USES_TI_MAC80211                 := true
 BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
@@ -145,10 +148,15 @@ BUILD_WITH_SECURITY_FRAMEWORK := chaabi_token
 BUILD_WITH_CHAABI_SUPPORT := true
 
 # RMT_STORAGE
-# BOARD_USES_LEGACY_MMAP := true
+BOARD_USES_LEGACY_MMAP := true
 
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
+
+# Enable build-time pre-optimization for userdebug
+ifeq ($(TARGET_BUILD_VARIANT),userdebug)
+WITH_DEXPREOPT := true
+endif
 
 # Recovery configuration global
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
@@ -176,24 +184,30 @@ HAVE_SELINUX := true
 # SELinux
 BOARD_SEPOLICY_DIRS += \
 	device/motorola/smi/sepolicy
-
+BOARD_SEPOLICY_REPLACE := \
+        domain.te
 BOARD_SEPOLICY_UNION += \
 	akmd8963.te \
 	batt_health.te \
-	bd_prov.te \
 	bluetooth.te \
 	bootanim.te \
-	enable_houdini.te \
+	debuggerd.te \
+	device.te \
 	file.te \
 	init.te \
+	init_shell.te \
+	kernel.te \
 	locdrv.te \
 	mediaserver.te \
 	mmgr.te \
 	pvrsrvctl.te \
+	radio.te \
 	rild.te \
 	surfaceflinger.te \
 	system_server.te \
 	ueventd.te \
 	uim_sysfs.te \
+	untrusted_app.te \
 	watchdogd.te \
+	wpa.te \
 	zygote.te
